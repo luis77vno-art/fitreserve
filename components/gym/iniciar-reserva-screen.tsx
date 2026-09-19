@@ -83,7 +83,7 @@ export function IniciarReservaScreen({
           </span>
           <Select value={hora} onValueChange={setHora}>
             <SelectTrigger
-              className="w-full rounded-xl px-4 py-6 text-sm"
+              className="w-full rounded-xl px-4 py-6 text-sm text-[#2B3B4C] [&_[data-slot=select-value]]:text-[#2B3B4C]"
               style={{ borderColor: COLORS.norse }}
             >
               <SelectValue placeholder="Selecciona un horario" />
