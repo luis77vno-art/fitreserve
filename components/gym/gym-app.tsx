@@ -13,6 +13,8 @@ import {
   ErrorReservaScreen,
 } from "./message-screens"
 
+const ERROR_REASONS = ["Estado de cuenta inactivo", "Asistencia del Plan agotadas"]
+
 function randomPin() {
   return String(Math.floor(1000 + Math.random() * 9000))
 }
@@ -21,8 +23,21 @@ export function GymApp() {
   const [currentScreen, setCurrentScreen] = useState<Screen>("home")
   const [activityName, setActivityName] = useState("")
   const [pin, setPin] = useState("0000")
+  const [isEditing, setIsEditing] = useState(false)
+  const [errorReason, setErrorReason] = useState(ERROR_REASONS[0])
 
   const navigate = (screen: Screen) => setCurrentScreen(screen)
+
+  const handleSelectActivity = (name: string) => {
+    setIsEditing(false)
+    setActivityName(name)
+  }
+
+  const handleModify = (name: string) => {
+    setIsEditing(true)
+    setActivityName(name)
+    navigate("iniciar-reserva")
+  }
 
   const handleConfirm = () => {
     // 80% éxito / 20% error
@@ -30,6 +45,7 @@ export function GymApp() {
       setPin(randomPin())
       navigate("confirmacion")
     } else {
+      setErrorReason(ERROR_REASONS[Math.floor(Math.random() * ERROR_REASONS.length)])
       navigate("error-reserva")
     }
   }
@@ -39,13 +55,14 @@ export function GymApp() {
       case "home":
         return <HomeScreen onNavigate={navigate} />
       case "reservar":
-        return <ReservarScreen onNavigate={navigate} onSelectActivity={setActivityName} />
+        return <ReservarScreen onNavigate={navigate} onSelectActivity={handleSelectActivity} />
       case "mis-reservas":
-        return <MisReservasScreen onNavigate={navigate} />
+        return <MisReservasScreen onNavigate={navigate} onModify={handleModify} />
       case "iniciar-reserva":
         return (
           <IniciarReservaScreen
             activityName={activityName}
+            isEditing={isEditing}
             onNavigate={navigate}
             onConfirm={handleConfirm}
           />
@@ -57,7 +74,7 @@ export function GymApp() {
       case "confirmacion":
         return <ConfirmacionScreen pin={pin} onNavigate={navigate} />
       case "error-reserva":
-        return <ErrorReservaScreen onNavigate={navigate} />
+        return <ErrorReservaScreen reason={errorReason} onNavigate={navigate} />
       default:
         return <HomeScreen onNavigate={navigate} />
     }

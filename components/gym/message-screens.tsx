@@ -116,8 +116,13 @@ export function ConfirmacionScreen({
   )
 }
 
-export function ErrorReservaScreen({ onNavigate }: { onNavigate: (s: Screen) => void }) {
-  const reasons = ["Estado de cuenta inactivo", "Asistencias del Plan agotadas"]
+export function ErrorReservaScreen({
+  reason,
+  onNavigate,
+}: {
+  reason: string
+  onNavigate: (s: Screen) => void
+}) {
   return (
     <CenteredLayout>
       <div
@@ -134,18 +139,13 @@ export function ErrorReservaScreen({ onNavigate }: { onNavigate: (s: Screen) => 
           Motivo:
         </p>
       </div>
-      <ul className="flex w-full max-w-xs flex-col gap-2 text-left">
-        {reasons.map((reason) => (
-          <li
-            key={reason}
-            className="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium"
-            style={{ backgroundColor: `${COLORS.pumpkin}14`, color: COLORS.pumpkin }}
-          >
-            <AlertTriangle className="size-4 shrink-0" />
-            {reason}
-          </li>
-        ))}
-      </ul>
+      <p
+        className="flex w-full max-w-xs items-center justify-center gap-2 rounded-xl px-4 py-3 text-base font-semibold"
+        style={{ backgroundColor: `${COLORS.pumpkin}14`, color: COLORS.pumpkin }}
+      >
+        <AlertTriangle className="size-5 shrink-0" aria-hidden="true" />
+        {reason}
+      </p>
       <ActionButton label="Volver al menú" onClick={() => onNavigate("home")} color={COLORS.norse} />
     </CenteredLayout>
   )

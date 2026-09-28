@@ -20,10 +20,12 @@ const HORARIOS = ["08:00", "10:00", "15:00", "18:00", "20:00"]
 
 export function IniciarReservaScreen({
   activityName,
+  isEditing = false,
   onNavigate,
   onConfirm,
 }: {
   activityName: string
+  isEditing?: boolean
   onNavigate: (s: Screen) => void
   onConfirm: () => void
 }) {
@@ -35,13 +37,21 @@ export function IniciarReservaScreen({
 
   return (
     <div className="flex h-full flex-col">
-      <ScreenHeader title="INICIAR RESERVA" onBack={() => onNavigate("reservar")} />
+      <ScreenHeader
+        title="INICIAR RESERVA"
+        onBack={() => onNavigate(isEditing ? "mis-reservas" : "reservar")}
+      />
 
       <div className="flex flex-1 flex-col gap-6 overflow-y-auto px-5 py-6">
         <div
           className="rounded-2xl px-4 py-3 text-center text-sm font-semibold text-white"
           style={{ backgroundColor: COLORS.norse }}
         >
+          {isEditing && (
+            <span className="block text-xs font-medium uppercase tracking-wide text-white/80">
+              Modificando reserva
+            </span>
+          )}
           {activityName || "Actividad"}
         </div>
 
@@ -71,7 +81,7 @@ export function IniciarReservaScreen({
                 }}
                 locale={es}
                 captionLayout="dropdown"
-                initialFocus
+                autoFocus
               />
             </PopoverContent>
           </Popover>
@@ -81,7 +91,7 @@ export function IniciarReservaScreen({
           <span className="text-sm font-semibold" style={labelStyle}>
             Hora
           </span>
-          <Select value={hora} onValueChange={setHora}>
+          <Select value={hora} onValueChange={(v) => setHora(v ?? "")}>
             <SelectTrigger
               className="w-full rounded-xl px-4 py-6 text-sm text-[#2B3B4C] [&_[data-slot=select-value]]:text-[#2B3B4C]"
               style={{ borderColor: COLORS.norse }}

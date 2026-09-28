@@ -17,7 +17,13 @@ const RESERVAS: Reserva[] = [
   { actividad: "Yoga", fecha: "26 Sep 2026", hora: "09:30", pin: "5678" },
 ]
 
-export function MisReservasScreen({ onNavigate }: { onNavigate: (s: Screen) => void }) {
+export function MisReservasScreen({
+  onNavigate,
+  onModify,
+}: {
+  onNavigate: (s: Screen) => void
+  onModify: (actividad: string) => void
+}) {
   return (
     <div className="flex h-full flex-col">
       <ScreenHeader title="MIS RESERVAS" onBack={() => onNavigate("home")} />
@@ -43,14 +49,24 @@ export function MisReservasScreen({ onNavigate }: { onNavigate: (s: Screen) => v
                 <span className="font-medium">PIN:</span>
                 <span className="font-mono font-bold tracking-widest">{r.pin}</span>
               </div>
-              <button
-                type="button"
-                onClick={() => onNavigate("cancelacion-exitosa")}
-                className="mt-1 w-full rounded-xl py-2.5 text-sm font-bold uppercase tracking-wide text-white transition-transform active:scale-[0.98]"
-                style={{ backgroundColor: COLORS.pumpkin }}
-              >
-                Dar de baja
-              </button>
+              <div className="mt-1 flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => onModify(r.actividad)}
+                  className="flex-1 rounded-xl py-2.5 text-sm font-bold uppercase tracking-wide text-white transition-transform active:scale-[0.98]"
+                  style={{ backgroundColor: COLORS.norse }}
+                >
+                  Modificar
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onNavigate("cancelacion-exitosa")}
+                  className="flex-1 rounded-xl py-2.5 text-sm font-bold uppercase tracking-wide text-white transition-transform active:scale-[0.98]"
+                  style={{ backgroundColor: COLORS.pumpkin }}
+                >
+                  Dar de baja
+                </button>
+              </div>
             </div>
           </Card>
         ))}
