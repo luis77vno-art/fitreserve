@@ -22,25 +22,25 @@ export function GymApp() {
   const [currentScreen, setCurrentScreen] = useState<Screen>("home")
   const [activityName, setActivityName] = useState("")
   const [pin, setPin] = useState("0000")
-  const [isEditing, setIsEditing] = useState(false)
+  const [isModifying, setIsModifying] = useState(false)
   const [errorReason, setErrorReason] = useState(ERROR_REASONS[0])
 
   const navigate = (screen: Screen) => setCurrentScreen(screen)
 
   const handleSelectActivity = (name: string) => {
-    setIsEditing(false)
+    setIsModifying(false)
     setActivityName(name)
   }
 
   const handleModify = (name: string) => {
-    setIsEditing(true)
+    setIsModifying(true)
     setActivityName(name)
     navigate("iniciar-reserva")
   }
 
   const handleConfirm = () => {
-    // 80% éxito / 20% error
-    if (Math.random() < 0.8) {
+    // Las modificaciones siempre se confirman; las nuevas reservas tienen 80% éxito / 20% error
+    if (isModifying || Math.random() < 0.8) {
       setPin(randomPin())
       navigate("confirmacion")
     } else {
@@ -61,7 +61,7 @@ export function GymApp() {
         return (
           <IniciarReservaScreen
             activityName={activityName}
-            isEditing={isEditing}
+            isEditing={isModifying}
             onNavigate={navigate}
             onConfirm={handleConfirm}
           />
