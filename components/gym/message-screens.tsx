@@ -32,34 +32,6 @@ function ActionButton({
   )
 }
 
-export function CupoMaximoScreen({
-  activityName,
-  onNavigate,
-}: {
-  activityName: string
-  onNavigate: (s: Screen) => void
-}) {
-  return (
-    <CenteredLayout>
-      <div
-        className="flex size-20 items-center justify-center rounded-full"
-        style={{ backgroundColor: `${COLORS.pumpkin}22` }}
-      >
-        <AlertTriangle className="size-10" style={{ color: COLORS.pumpkin }} />
-      </div>
-      <div className="space-y-2">
-        <h2 className="text-xl font-bold uppercase" style={{ color: COLORS.poseidon }}>
-          {activityName || "Nombre de actividad"}
-        </h2>
-        <p className="text-sm" style={{ color: COLORS.poseidon }}>
-          Esta actividad alcanzó su cupo máximo.
-        </p>
-      </div>
-      <ActionButton label="Volver" onClick={() => onNavigate("reservar")} color={COLORS.norse} />
-    </CenteredLayout>
-  )
-}
-
 export function CancelacionExitosaScreen({ onNavigate }: { onNavigate: (s: Screen) => void }) {
   return (
     <CenteredLayout>

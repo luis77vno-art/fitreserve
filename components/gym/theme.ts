@@ -12,7 +12,6 @@ export type Screen =
   | "reservar"
   | "mis-reservas"
   | "iniciar-reserva"
-  | "cupo-maximo"
   | "confirmacion"
   | "cancelacion-exitosa"
   | "error-reserva"

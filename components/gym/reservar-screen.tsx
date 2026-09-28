@@ -15,8 +15,7 @@ export function ReservarScreen({
 }) {
   const handleSelect = (name: string) => {
     onSelectActivity(name)
-    const hasCupo = Math.random() < 0.7
-    onNavigate(hasCupo ? "iniciar-reserva" : "cupo-maximo")
+    onNavigate("iniciar-reserva")
   }
 
   return (

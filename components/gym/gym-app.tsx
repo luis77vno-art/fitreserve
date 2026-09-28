@@ -9,7 +9,6 @@ import { IniciarReservaScreen } from "./iniciar-reserva-screen"
 import {
   CancelacionExitosaScreen,
   ConfirmacionScreen,
-  CupoMaximoScreen,
   ErrorReservaScreen,
 } from "./message-screens"
 
@@ -67,8 +66,6 @@ export function GymApp() {
             onConfirm={handleConfirm}
           />
         )
-      case "cupo-maximo":
-        return <CupoMaximoScreen activityName={activityName} onNavigate={navigate} />
       case "cancelacion-exitosa":
         return <CancelacionExitosaScreen onNavigate={navigate} />
       case "confirmacion":

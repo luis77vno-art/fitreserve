@@ -16,7 +16,15 @@ import {
 import { COLORS, type Screen } from "./theme"
 import { ScreenHeader } from "./screen-header"
 
-const HORARIOS = ["08:00", "10:00", "15:00", "18:00", "20:00"]
+const HORARIOS = [
+  { hora: "08:00", lleno: false },
+  { hora: "10:00", lleno: false },
+  { hora: "12:00", lleno: true },
+  { hora: "15:00", lleno: false },
+  { hora: "18:00", lleno: true },
+  { hora: "19:00", lleno: true },
+  { hora: "20:00", lleno: false },
+]
 
 export function IniciarReservaScreen({
   activityName,
@@ -99,9 +107,9 @@ export function IniciarReservaScreen({
               <SelectValue placeholder="Selecciona un horario" />
             </SelectTrigger>
             <SelectContent>
-              {HORARIOS.map((h) => (
-                <SelectItem key={h} value={h}>
-                  {h}
+              {HORARIOS.map(({ hora: h, lleno }) => (
+                <SelectItem key={h} value={h} disabled={lleno}>
+                  {lleno ? `${h} - Lleno` : h}
                 </SelectItem>
               ))}
             </SelectContent>
