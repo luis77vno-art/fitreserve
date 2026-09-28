@@ -14,6 +14,11 @@ import {
 
 const ERROR_REASONS = ["Estado de cuenta inactivo", "Asistencia del Plan agotadas"]
 
+const DEMO_ERROR_BY_ACTIVITY: Record<string, string> = {
+  Funcional: "Estado de cuenta inactivo",
+  Yoga: "Asistencia del Plan agotadas",
+}
+
 function randomPin() {
   return String(Math.floor(1000 + Math.random() * 9000))
 }
@@ -39,14 +44,16 @@ export function GymApp() {
   }
 
   const handleConfirm = () => {
-    // Las modificaciones siempre se confirman; las nuevas reservas tienen 80% éxito / 20% error
-    if (isModifying || Math.random() < 0.8) {
-      setPin(randomPin())
-      navigate("confirmacion")
-    } else {
-      setErrorReason(ERROR_REASONS[Math.floor(Math.random() * ERROR_REASONS.length)])
+    const errorForActivity = isModifying ? undefined : DEMO_ERROR_BY_ACTIVITY[activityName]
+
+    if (errorForActivity) {
+      setErrorReason(errorForActivity)
       navigate("error-reserva")
+      return
     }
+
+    setPin(randomPin())
+    navigate("confirmacion")
   }
 
   const renderScreen = () => {
