@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
-import { CalendarIcon } from "lucide-react"
+import { CalendarIcon, Clock, MapPin, User } from "lucide-react"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import {
@@ -26,6 +26,13 @@ const HORARIOS = [
   { hora: "20:00", lleno: false },
 ]
 
+const ACTIVITY_DETAILS: Record<string, { profesor: string; sala: string }> = {
+  Spinning: { profesor: "Prof. Marcos", sala: "Sala 1" },
+  Funcional: { profesor: "Prof. Laura", sala: "Sala 2" },
+  Musculación: { profesor: "Prof. Diego", sala: "Sala de Pesas" },
+  Yoga: { profesor: "Prof. Sofía", sala: "Sala 3" },
+}
+
 const UNAVAILABLE_WEEKDAYS = [0, 2, 4, 6]
 
 const isClassDay = (date: Date) => !UNAVAILABLE_WEEKDAYS.includes(date.getDay())
@@ -44,6 +51,7 @@ export function IniciarReservaScreen({
   const [calendarOpen, setCalendarOpen] = useState(false)
 
   const labelStyle = { color: COLORS.poseidon }
+  const details = ACTIVITY_DETAILS[activityName]
 
   return (
     <div className="flex h-full flex-col">
@@ -124,9 +132,29 @@ export function IniciarReservaScreen({
             className="rounded-xl px-4 py-3 text-sm"
             style={{ backgroundColor: `${COLORS.poseidon}14`, color: COLORS.poseidon }}
           >
-            <span className="font-semibold">Reserva: </span>
-            {fecha ? format(fecha, "d MMM yyyy", { locale: es }) : "sin fecha"}
-            {hora ? ` · ${hora}` : ""}
+            <p className="mb-2 text-xs font-bold uppercase tracking-wide opacity-70">
+              Resumen de la reserva
+            </p>
+            <dl className="flex flex-col gap-2">
+              <div className="flex items-center gap-3">
+                <Clock className="size-4 shrink-0" style={{ color: COLORS.norse }} aria-hidden="true" />
+                <dt className="sr-only">Fecha y hora</dt>
+                <dd className="font-semibold">
+                  {fecha ? format(fecha, "d MMM yyyy", { locale: es }) : "Sin fecha"}
+                  {hora ? ` · ${hora}` : ""}
+                </dd>
+              </div>
+              <div className="flex items-center gap-3">
+                <User className="size-4 shrink-0" style={{ color: COLORS.norse }} aria-hidden="true" />
+                <dt className="sr-only">Profesor</dt>
+                <dd>{details?.profesor ?? "Profesor a confirmar"}</dd>
+              </div>
+              <div className="flex items-center gap-3">
+                <MapPin className="size-4 shrink-0" style={{ color: COLORS.norse }} aria-hidden="true" />
+                <dt className="sr-only">Sala</dt>
+                <dd>{details?.sala ?? "Sala a confirmar"}</dd>
+              </div>
+            </dl>
           </div>
         )}
       </div>
