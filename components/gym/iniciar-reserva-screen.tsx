@@ -26,14 +26,16 @@ const HORARIOS = [
   { hora: "20:00", lleno: false },
 ]
 
+const UNAVAILABLE_WEEKDAYS = [0, 2, 4, 6]
+
+const isClassDay = (date: Date) => !UNAVAILABLE_WEEKDAYS.includes(date.getDay())
+
 export function IniciarReservaScreen({
   activityName,
-  isEditing = false,
   onNavigate,
   onConfirm,
 }: {
   activityName: string
-  isEditing?: boolean
   onNavigate: (s: Screen) => void
   onConfirm: () => void
 }) {
@@ -47,7 +49,7 @@ export function IniciarReservaScreen({
     <div className="flex h-full flex-col">
       <ScreenHeader
         title="INICIAR RESERVA"
-        onBack={() => onNavigate(isEditing ? "mis-reservas" : "reservar")}
+        onBack={() => onNavigate("reservar")}
       />
 
       <div className="flex flex-1 flex-col gap-6 overflow-y-auto px-5 py-6">
@@ -55,11 +57,6 @@ export function IniciarReservaScreen({
           className="rounded-2xl px-4 py-3 text-center text-sm font-semibold text-white"
           style={{ backgroundColor: COLORS.norse }}
         >
-          {isEditing && (
-            <span className="block text-xs font-medium uppercase tracking-wide text-white/80">
-              Modificando reserva
-            </span>
-          )}
           {activityName || "Actividad"}
         </div>
 
@@ -89,10 +86,16 @@ export function IniciarReservaScreen({
                 }}
                 locale={es}
                 captionLayout="dropdown"
+                disabled={(date) => !isClassDay(date)}
+                modifiers={{ classDay: isClassDay }}
+                modifiersClassNames={{ classDay: "font-semibold text-[#638FA9]" }}
                 autoFocus
               />
             </PopoverContent>
           </Popover>
+          <span className="text-xs text-muted-foreground">
+            Clases disponibles: lunes, miércoles y viernes.
+          </span>
         </div>
 
         <div className="flex flex-col gap-2">
@@ -131,11 +134,11 @@ export function IniciarReservaScreen({
       <div className="flex gap-3 px-5 py-5">
         <button
           type="button"
-          onClick={() => onNavigate("cancelacion-exitosa")}
+          onClick={() => onNavigate("home")}
           className="flex-1 rounded-xl py-3 text-sm font-bold uppercase tracking-wide text-white transition-transform active:scale-[0.98]"
           style={{ backgroundColor: COLORS.pumpkin }}
         >
-          Cancelar
+          Salir
         </button>
         <button
           type="button"

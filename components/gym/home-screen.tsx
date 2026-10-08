@@ -1,6 +1,6 @@
 "use client"
 
-import { CalendarDays, ClipboardList, CreditCard, Dumbbell, Menu, QrCode, Settings } from "lucide-react"
+import { CalendarDays, CreditCard, Dumbbell, Menu, QrCode, Settings } from "lucide-react"
 import { COLORS, type Screen } from "./theme"
 
 function MenuTile({
@@ -48,11 +48,6 @@ export function HomeScreen({ onNavigate }: { onNavigate: (s: Screen) => void }) 
 
       <div className="flex flex-1 flex-col gap-4 overflow-y-auto px-5 py-6">
         <MenuTile label="Reservar" icon={<Dumbbell className="size-6" />} onClick={() => onNavigate("reservar")} />
-        <MenuTile
-          label="Mis Reservas"
-          icon={<ClipboardList className="size-6" />}
-          onClick={() => onNavigate("mis-reservas")}
-        />
         <MenuTile label="Calendario" icon={<CalendarDays className="size-6" />} disabled />
         <MenuTile label="Plan" icon={<CreditCard className="size-6" />} disabled />
       </div>

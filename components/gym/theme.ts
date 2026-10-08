@@ -10,8 +10,6 @@ export const COLORS = {
 export type Screen =
   | "home"
   | "reservar"
-  | "mis-reservas"
   | "iniciar-reserva"
   | "confirmacion"
-  | "cancelacion-exitosa"
   | "error-reserva"

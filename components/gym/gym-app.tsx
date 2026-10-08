@@ -4,15 +4,8 @@ import { useState } from "react"
 import { COLORS, type Screen } from "./theme"
 import { HomeScreen } from "./home-screen"
 import { ReservarScreen } from "./reservar-screen"
-import { MisReservasScreen } from "./mis-reservas-screen"
 import { IniciarReservaScreen } from "./iniciar-reserva-screen"
-import {
-  CancelacionExitosaScreen,
-  ConfirmacionScreen,
-  ErrorReservaScreen,
-} from "./message-screens"
-
-const ERROR_REASONS = ["Estado de cuenta inactivo", "Asistencia del Plan agotadas"]
+import { ConfirmacionScreen, ErrorReservaScreen } from "./message-screens"
 
 const DEMO_ERROR_BY_ACTIVITY: Record<string, string> = {
   Funcional: "Estado de cuenta inactivo",
@@ -27,24 +20,12 @@ export function GymApp() {
   const [currentScreen, setCurrentScreen] = useState<Screen>("home")
   const [activityName, setActivityName] = useState("")
   const [pin, setPin] = useState("0000")
-  const [isModifying, setIsModifying] = useState(false)
-  const [errorReason, setErrorReason] = useState(ERROR_REASONS[0])
+  const [errorReason, setErrorReason] = useState("")
 
   const navigate = (screen: Screen) => setCurrentScreen(screen)
 
-  const handleSelectActivity = (name: string) => {
-    setIsModifying(false)
-    setActivityName(name)
-  }
-
-  const handleModify = (name: string) => {
-    setIsModifying(true)
-    setActivityName(name)
-    navigate("iniciar-reserva")
-  }
-
   const handleConfirm = () => {
-    const errorForActivity = isModifying ? undefined : DEMO_ERROR_BY_ACTIVITY[activityName]
+    const errorForActivity = DEMO_ERROR_BY_ACTIVITY[activityName]
 
     if (errorForActivity) {
       setErrorReason(errorForActivity)
@@ -61,20 +42,15 @@ export function GymApp() {
       case "home":
         return <HomeScreen onNavigate={navigate} />
       case "reservar":
-        return <ReservarScreen onNavigate={navigate} onSelectActivity={handleSelectActivity} />
-      case "mis-reservas":
-        return <MisReservasScreen onNavigate={navigate} onModify={handleModify} />
+        return <ReservarScreen onNavigate={navigate} onSelectActivity={setActivityName} />
       case "iniciar-reserva":
         return (
           <IniciarReservaScreen
             activityName={activityName}
-            isEditing={isModifying}
             onNavigate={navigate}
             onConfirm={handleConfirm}
           />
         )
-      case "cancelacion-exitosa":
-        return <CancelacionExitosaScreen onNavigate={navigate} />
       case "confirmacion":
         return <ConfirmacionScreen pin={pin} onNavigate={navigate} />
       case "error-reserva":

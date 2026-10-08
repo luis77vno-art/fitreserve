@@ -32,26 +32,6 @@ function ActionButton({
   )
 }
 
-export function CancelacionExitosaScreen({ onNavigate }: { onNavigate: (s: Screen) => void }) {
-  return (
-    <CenteredLayout>
-      <div
-        className="flex size-20 items-center justify-center rounded-full"
-        style={{ backgroundColor: `${COLORS.norse}22` }}
-      >
-        <CheckCircle2 className="size-10" style={{ color: COLORS.norse }} />
-      </div>
-      <div className="space-y-2">
-        <h2 className="text-xl font-bold" style={{ color: COLORS.poseidon }}>
-          Cancelación exitosa
-        </h2>
-        <p className="text-sm text-muted-foreground">Tu reserva fue dada de baja correctamente.</p>
-      </div>
-      <ActionButton label="Volver al menú" onClick={() => onNavigate("home")} color={COLORS.norse} />
-    </CenteredLayout>
-  )
-}
-
 export function ConfirmacionScreen({
   pin,
   onNavigate,
